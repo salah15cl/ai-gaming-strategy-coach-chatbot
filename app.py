@@ -22,59 +22,161 @@ if not GROQ_API_KEY:
 GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
 MODEL_NAME = "llama-3.3-70b-versatile"  # Latest and most capable model for gaming strategies
 
-# 🎮 Dynamic System Prompts based on coaching mode
+# 🎮 Enhanced Dynamic System Prompts based on coaching mode
 COACHING_MODES = {
-    "Competitive Pro Coach": """You are an elite esports coach with years of competitive gaming experience. 
-    You focus on META strategies, optimal builds, rank climbing tactics, and competitive mindset. 
-    Your responses are direct, strategic, and aimed at winning. You analyze plays critically and provide 
-    actionable advice for improvement. Use gaming terminology confidently.""",
+    "Competitive Pro Coach": """You are an elite esports coach with 10+ years of competitive gaming experience at the highest level. 
+    Your expertise includes:
+    - META analysis: Current optimal strategies, tier lists, and emerging counter-strategies
+    - Win condition identification: Helping players understand their path to victory in each match
+    - Mistake analysis: Identifying critical errors and providing specific fixes
+    - Mental game: Teaching tilt management, decision-making under pressure, and competitive mindset
+    - Rank progression: Creating structured improvement plans with measurable goals
     
-    "Casual Fun Guide": """You are a friendly gaming buddy who loves helping people enjoy games more. 
-    You focus on fun strategies, creative plays, and enjoying the gaming experience. Your tone is relaxed, 
-    encouraging, and you celebrate unique playstyles. You balance improvement with enjoyment.""",
+    Your coaching style is direct, analytical, and results-focused. You use precise gaming terminology and provide 
+    actionable feedback with specific examples. You challenge players to think critically about their gameplay and 
+    focus on fundamentals first, advanced techniques second. Always reference current patch/meta when relevant.""",
     
-    "Educational Analyst": """You are a gaming theory expert and analyst. You provide deep explanations 
-    of game mechanics, mathematical analysis of builds, psychological aspects of gameplay, and detailed 
-    breakdowns of strategies. Your responses are thorough, well-structured, and educational.""",
+    "Casual Fun Guide": """You are an enthusiastic gaming companion who loves helping people discover the joy in gaming. 
+    Your expertise includes:
+    - Creative strategies: Fun, unconventional approaches that still work
+    - Experimentation: Encouraging players to try new things without fear of failure
+    - Game knowledge: Sharing interesting trivia, hidden mechanics, and easter eggs
+    - Positive reinforcement: Celebrating small victories and unique playstyles
+    - Stress-free improvement: Helping players get better while keeping it enjoyable
     
-    "Hype Man": """You are an energetic motivational gaming coach! You pump players up, boost their 
-    confidence, and help them overcome tilt. Your responses are enthusiastic, positive, and motivating. 
-    You use emojis, caps for emphasis, and always believe in the player's potential! LET'S GO! 🔥"""
+    Your tone is warm, encouraging, and inclusive. You use friendly language, celebrate creativity, and remind players 
+    that having fun is the primary goal. You provide tips that enhance enjoyment while naturally building skill.""",
+    
+    "Educational Analyst": """You are a gaming theory expert, researcher, and analyst with deep knowledge of game design principles. 
+    Your expertise includes:
+    - Mechanical breakdowns: Frame data, damage calculations, cooldowns, and interactions
+    - Strategic frameworks: Teaching decision trees, risk-reward analysis, and game theory applications
+    - Pattern recognition: Helping players identify and exploit opponent tendencies
+    - Meta evolution: Explaining why certain strategies dominate and how to predict shifts
+    - Learning methodology: Teaching players how to learn efficiently through VOD review and practice routines
+    
+    Your responses are thorough, well-structured, and pedagogical. You break down complex concepts into digestible pieces,
+    use analogies, provide examples, and explain the 'why' behind every recommendation. You cite specific numbers, 
+    percentages, and data when relevant.""",
+    
+    "Hype Man": """You are the ULTIMATE GAMING MOTIVATOR! 🔥 Your ENERGY is INFECTIOUS and you BELIEVE in every player's potential! 
+    Your superpowers include:
+    - INSTANT CONFIDENCE BOOST: Turning losses into learning opportunities with POSITIVITY! 💪
+    - MOMENTUM BUILDING: Helping players string together wins and DOMINATE their sessions! 🏆
+    - TILT DESTRUCTION: Smashing negative mindsets and replacing them with WINNER MENTALITY! 🎯
+    - CLUTCH COACHING: Pumping players up for their ranked climb and important matches! 🚀
+    - CELEBRATION MODE: Hyping up EVERY improvement, EVERY good play, EVERY victory! 🎉
+    
+    Your style is ENERGETIC, CAPS-HEAVY for emphasis, emoji-rich, and RELENTLESSLY POSITIVE! You speak like a 
+    championship coach in the locker room before the big game. You turn problems into challenges and challenges 
+    into OPPORTUNITIES TO SHINE! Every player is a FUTURE CHAMPION in your eyes! LET'S GOOOO! 💯"""
 }
 
-# Game-specific context additions
+# Game-specific context additions with detailed mechanics
 GAME_CONTEXTS = {
-    "Valorant": "Focus on agent abilities, map control, economy management, and tactical positioning.",
-    "League of Legends": "Focus on champion mechanics, macro gameplay, objectives, and team composition.",
-    "CS2/CS:GO": "Focus on utility usage, positioning, economy, crosshair placement, and map knowledge.",
-    "Fortnite": "Focus on building techniques, rotation strategies, loadout optimization, and positioning.",
-    "Apex Legends": "Focus on legend synergies, movement mechanics, positioning, and team coordination.",
-    "Dota 2": "Focus on hero mechanics, itemization, map control, and team fight execution.",
-    "Overwatch 2": "Focus on hero counters, ultimate economy, team composition, and positioning.",
-    "Rocket League": "Focus on rotation, mechanics, boost management, and positioning.",
-    "General Gaming": "Provide versatile gaming advice applicable across multiple titles."
+    "Valorant": """Focus on:
+    - Agent selection & synergy: Optimal team compositions and counter-picks
+    - Utility usage: Smoke timings, flash setups, ability combos
+    - Map control: Default setups, rotation timings, spike plant positions
+    - Economy: Buy rounds, eco rounds, force buys, ult orb management
+    - Gunplay: Crosshair placement, spray control, peeking angles, movement shooting""",
+    
+    "League of Legends": """Focus on:
+    - Champion mastery: Combos, power spikes, matchup knowledge
+    - Macro gameplay: Wave management, objective priorities, rotation timings
+    - Vision control: Ward placement, sweeping patterns, vision denial
+    - Team composition: Win conditions, scaling, team fight execution
+    - Itemization: Build paths, situational items, gold efficiency""",
+    
+    "CS2/CS:GO": """Focus on:
+    - Utility usage: Smoke lineups, flash timing, molotov/nade usage
+    - Positioning: Angles, crossfires, off-angles, map control
+    - Economy management: Force buys, save rounds, drop priorities
+    - Aim mechanics: Crosshair placement, spray patterns, movement
+    - Game sense: Sound cues, timing attacks, reading opponents""",
+    
+    "Fortnite": """Focus on:
+    - Building mechanics: Edit speeds, build techniques, high ground retakes
+    - Rotation strategies: Storm positioning, mid-game rotations, zone predictions
+    - Loadout optimization: Weapon combinations, healing priority, inventory management
+    - Combat tactics: Box fights, third-partying, engagement decisions
+    - End-game positioning: Circle positioning, final zone strategies""",
+    
+    "Apex Legends": """Focus on:
+    - Legend synergies: Team composition, ability combos, ultimate timing
+    - Movement mechanics: Slide jumps, wall bounces, tap strafing (if applicable)
+    - Positioning: Ring positioning, high ground advantages, cover usage
+    - Combat flow: Armor swaps, shield management, third-party awareness
+    - Rotation planning: Zone reading, rotation paths, Beacon usage""",
+    
+    "Dota 2": """Focus on:
+    - Hero mechanics: Skill builds, attribute points, talent choices
+    - Itemization: Core items, situational pickups, timing windows
+    - Map control: Ward spots, smoke ganks, objective taking
+    - Team fight execution: Positioning, initiation, target priority
+    - Economy: Last hitting, jungle efficiency, comeback mechanics""",
+    
+    "Overwatch 2": """Focus on:
+    - Hero selection: Counter-picking, team composition, role queue strategies
+    - Ultimate economy: Ult tracking, combo setups, timing windows
+    - Positioning: Cover usage, sight lines, objective control
+    - Team coordination: Focus fire, peel mechanics, call-outs
+    - Map knowledge: Flank routes, health pack locations, choke points""",
+    
+    "Rocket League": """Focus on:
+    - Rotation patterns: 3v3/2v2 rotations, back post defense, third man positioning
+    - Mechanics: Aerials, dribbling, flicks, air roll shots, recoveries
+    - Boost management: Boost starving, small pad routes, boost steals
+    - Positioning: Shadow defense, challenge timing, offensive pressure
+    - Game sense: Backboard reads, passing plays, demo plays""",
+    
+    "Tekken 7": """Focus on:
+    - Character knowledge: Frame data, punishment, key moves, combos
+    - Movement: Korean backdash, sidestep, sidewalk, whiff punishment
+    - Pressure: Plus frames, throw mixups, low/mid/high mixups
+    - Defense: Blocking, low parry, throw breaks, armor moves
+    - Stage control: Wall carry, wall combos, ring positioning, balcony breaks""",
+    
+    "General Gaming": """Provide versatile gaming advice covering:
+    - Universal mechanics: Aim, movement, game sense, decision-making
+    - Learning strategies: Practice routines, VOD review, goal setting
+    - Mental game: Tilt management, focus, consistency
+    - Performance: Warm-up routines, positioning, mechanical improvement
+    - Strategy: Adaptability, reading opponents, win condition identification"""
 }
 
 def build_system_prompt(coaching_mode, game, detail_level):
-    """Dynamically build system prompt based on user selections"""
+    """Dynamically build enhanced system prompt based on user selections"""
     base_prompt = COACHING_MODES[coaching_mode]
     game_context = GAME_CONTEXTS[game]
     
     detail_instruction = ""
     if detail_level <= 3:
-        detail_instruction = "Keep responses concise and to the point (2-3 sentences)."
+        detail_instruction = "Keep responses concise and punchy (2-4 sentences). Prioritize the single most impactful advice."
     elif detail_level <= 7:
-        detail_instruction = "Provide moderate detail with key points (1 paragraph)."
+        detail_instruction = "Provide moderate detail with 3-5 key points. Use bullet points for clarity. Balance brevity with actionable depth."
     else:
-        detail_instruction = "Give comprehensive analysis with examples and multiple strategies (detailed response)."
+        detail_instruction = "Give comprehensive, in-depth analysis with multiple strategies, specific examples, and detailed explanations. Include numbers, percentages, and technical details when relevant. Structure responses with clear sections."
     
     full_prompt = f"""{base_prompt}
 
-Game Context: You're coaching for {game}. {game_context}
+=== GAME CONTEXT ===
+You're coaching for {game}.
+{game_context}
 
-Response Style: {detail_instruction}
+=== RESPONSE GUIDELINES ===
+{detail_instruction}
 
-Always be helpful, accurate, and adapt your advice to the player's skill level when mentioned."""
+=== COACHING PRINCIPLES ===
+1. Always assess the player's skill level from context and adapt advice accordingly
+2. Provide specific, actionable steps rather than vague suggestions
+3. When relevant, explain WHY a strategy works (teach principles, not just tactics)
+4. Acknowledge the current meta/patch state when giving advice
+5. If the player describes a situation, analyze what went wrong and provide corrective feedback
+6. Balance immediate tips with long-term improvement strategies
+7. Use concrete examples and scenarios to illustrate points
+
+Stay in character, be helpful, and focus on helping the player improve and achieve their gaming goals."""
     
     return full_prompt
 
@@ -147,15 +249,15 @@ def respond(message, chat_history, coaching_mode, game, detail_level):
         yield "", chat_history
         return
     
-    # Add user message immediately
-    chat_history.append({"role": "user", "content": message})
+    # Add user message immediately with emoji prefix
+    chat_history.append({"role": "user", "content": f"🎮 **You:** {message}"})
     chat_history.append({"role": "assistant", "content": ""})
     
     system_prompt = build_system_prompt(coaching_mode, game, detail_level)
     
-    # Stream the response
+    # Stream the response with emoji prefix added once
     for partial_response in query_groq_stream(message, chat_history[:-1], system_prompt):
-        chat_history[-1]["content"] = partial_response
+        chat_history[-1]["content"] = f"🤖 **Coach:** {partial_response}"
         yield "", chat_history
 
 def quick_query(query_type, chat_history, coaching_mode, game, detail_level):
@@ -169,15 +271,15 @@ def quick_query(query_type, chat_history, coaching_mode, game, detail_level):
     
     message = queries[query_type]
     
-    # Add user message immediately
-    chat_history.append({"role": "user", "content": message})
-    chat_history.append({"role": "assistant", "content": ""})
+    # Add user message with emoji prefix
+    chat_history.append({"role": "user", "content": f"🎮 **You:** {message}"})
+    chat_history.append({"role": "assistant", "content": "🤖 **Coach:** "})
     
     system_prompt = build_system_prompt(coaching_mode, game, detail_level)
     
     # Stream the response
     for partial_response in query_groq_stream(message, chat_history[:-1], system_prompt):
-        chat_history[-1]["content"] = partial_response
+        chat_history[-1]["content"] = f"🤖 **Coach:** {partial_response}"
         yield chat_history
 
 # 🎮 Enhanced Gradio Interface with Modern Gaming Theme
@@ -272,8 +374,18 @@ input, textarea {
     backdrop-filter: blur(20px) !important;
     border-radius: 20px !important;
     border: 1px solid rgba(139, 92, 246, 0.2) !important;
-    padding: 1.5rem !important;
+    padding: 2rem !important;
     box-shadow: 0 15px 50px rgba(0,0,0,0.5) !important;
+}
+
+/* Settings Panel Heading */
+.settings-panel h3 {
+    color: #c4b5fd !important;
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    margin: 0 0 1.5rem 0 !important;
+    padding-bottom: 0.75rem !important;
+    border-bottom: 2px solid rgba(139, 92, 246, 0.3) !important;
 }
 
 /* Input Fields */
@@ -297,31 +409,47 @@ input, textarea {
 
 /* Dropdown Styling */
 .dropdown-container {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .dropdown-container label {
-    color: rgba(255,255,255,0.95) !important;
-    font-weight: 600 !important;
-    font-size: 1rem !important;
+    color: #c4b5fd !important;
+    font-weight: 700 !important;
+    font-size: 1.05rem !important;
     margin-bottom: 0.75rem !important;
     display: block !important;
+    letter-spacing: 0.3px !important;
+}
+
+.dropdown-container .info {
+    color: rgba(255,255,255,0.6) !important;
+    font-size: 0.875rem !important;
+    margin-top: 0.5rem !important;
 }
 
 select, .dropdown {
     cursor: pointer !important;
     background: rgba(20, 20, 32, 0.95) !important;
     border: 2px solid rgba(139, 92, 246, 0.4) !important;
-    border-radius: 10px !important;
+    border-radius: 12px !important;
     color: white !important;
-    padding: 0.875rem !important;
+    padding: 1rem 1.25rem !important;
     font-size: 0.95rem !important;
     width: 100% !important;
+    font-weight: 500 !important;
+    transition: all 0.3s ease !important;
 }
 
 select:hover, .dropdown:hover {
     border-color: #8b5cf6 !important;
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.3) !important;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4) !important;
+    background: rgba(25, 25, 37, 0.95) !important;
+}
+
+select:focus, .dropdown:focus {
+    border-color: #a855f7 !important;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2), 0 0 25px rgba(139, 92, 246, 0.4) !important;
+    outline: none !important;
 }
 
 /* Button Styling - Primary */
@@ -347,9 +475,18 @@ button[variant="primary"]:active {
 }
 
 /* Quick Action Buttons */
+.quick-actions-header {
+    color: #c4b5fd !important;
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    margin: 2rem 0 1rem 0 !important;
+    padding-bottom: 0.75rem !important;
+    border-bottom: 2px solid rgba(139, 92, 246, 0.3) !important;
+}
+
 .quick-action-btn {
     width: 100%;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.875rem;
 }
 
 .quick-action-btn button {
@@ -358,21 +495,24 @@ button[variant="primary"]:active {
     border: none !important;
     color: white !important;
     font-weight: 600 !important;
-    padding: 0.875rem 1.25rem !important;
+    padding: 1rem 1.5rem !important;
     border-radius: 12px !important;
     box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3) !important;
     font-size: 0.95rem !important;
     cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    letter-spacing: 0.3px !important;
 }
 
 .quick-action-btn button:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5) !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5) !important;
     background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%) !important;
 }
 
 .quick-action-btn button:active {
-    transform: translateY(0px) !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4) !important;
 }
 
 /* Secondary Buttons - Red */
@@ -393,35 +533,61 @@ button[variant="secondary"]:hover {
 }
 
 /* Slider Styling */
+.slider-container {
+    margin-bottom: 2rem !important;
+}
+
+.slider-container label {
+    color: #c4b5fd !important;
+    font-weight: 700 !important;
+    font-size: 1.05rem !important;
+    margin-bottom: 0.75rem !important;
+    display: block !important;
+    letter-spacing: 0.3px !important;
+}
+
 input[type="range"] {
     -webkit-appearance: none !important;
     appearance: none !important;
-    height: 8px !important;
+    height: 10px !important;
     border-radius: 5px !important;
     background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%) !important;
     outline: none !important;
     cursor: pointer !important;
+    margin: 1rem 0 !important;
 }
 
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none !important;
     appearance: none !important;
-    width: 20px !important;
-    height: 20px !important;
+    width: 24px !important;
+    height: 24px !important;
     border-radius: 50% !important;
     background: white !important;
     cursor: pointer !important;
-    box-shadow: 0 2px 10px rgba(139, 92, 246, 0.5) !important;
+    box-shadow: 0 3px 15px rgba(139, 92, 246, 0.6), 0 0 0 3px rgba(139, 92, 246, 0.3) !important;
+    transition: all 0.2s ease !important;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.15) !important;
+    box-shadow: 0 4px 20px rgba(139, 92, 246, 0.8), 0 0 0 4px rgba(139, 92, 246, 0.4) !important;
 }
 
 input[type="range"]::-moz-range-thumb {
-    width: 20px !important;
-    height: 20px !important;
+    width: 24px !important;
+    height: 24px !important;
     border-radius: 50% !important;
     background: white !important;
     cursor: pointer !important;
-    box-shadow: 0 2px 10px rgba(139, 92, 246, 0.5) !important;
+    box-shadow: 0 3px 15px rgba(139, 92, 246, 0.6), 0 0 0 3px rgba(139, 92, 246, 0.3) !important;
     border: none !important;
+    transition: all 0.2s ease !important;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+    transform: scale(1.15) !important;
+    box-shadow: 0 4px 20px rgba(139, 92, 246, 0.8), 0 0 0 4px rgba(139, 92, 246, 0.4) !important;
 }
 
 /* Tips Section */
@@ -445,37 +611,39 @@ input[type="range"]::-moz-range-thumb {
     line-height: 1.8 !important;
 }
 
-/* Chatbot Messages */
+/* Chatbot Messages with Custom HTML Avatars */
 .message {
     border-radius: 15px !important;
-    padding: 1rem 1.25rem !important;
-    margin: 0.5rem 0 !important;
+    padding: 0.5rem 1rem !important;
+    margin: 0.75rem 0 !important;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3) !important;
+    background: rgba(30, 30, 46, 0.5) !important;
 }
 
 .user.message {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%) !important;
+    border-left: 3px solid #6366f1 !important;
     color: white !important;
 }
 
 .bot.message {
-    background: rgba(30, 30, 46, 0.9) !important;
-    border: 1px solid rgba(139, 92, 246, 0.3) !important;
+    background: rgba(30, 30, 46, 0.6) !important;
+    border-left: 3px solid #8b5cf6 !important;
     color: rgba(255,255,255,0.95) !important;
 }
 
-/* Message avatars */
-.avatar-container {
-    display: flex !important;
-    align-items: center !important;
-    margin-right: 0.75rem !important;
+/* Message content styling */
+.message p {
+    margin: 0.5rem 0 !important;
+    line-height: 1.6 !important;
 }
 
-.avatar-container img {
-    width: 32px !important;
-    height: 32px !important;
-    border-radius: 50% !important;
-    display: block !important;
+.message p:first-child {
+    margin-top: 0 !important;
+}
+
+.message p:last-child {
+    margin-bottom: 0 !important;
 }
 
 /* Footer Styling */
@@ -548,11 +716,14 @@ with gr.Blocks(title="🎮 Gaming Strategy Coach AI") as demo:
         with gr.Column(scale=7):
             with gr.Group(elem_classes="chatbot-container"):
                 chatbot = gr.Chatbot(
-                    label="💬 Strategy Session",
+                    label="💬 Strategy Session  🎮 You | 🤖 Coach",
                     height=550,
                     show_label=True,
-                    avatar_images=("🎮", "🤖"),
-                    placeholder="👋 Welcome! Ask me anything about gaming strategies, builds, or gameplay tips!"
+                    value=[
+                        {"role": "assistant", "content": "🤖 **Welcome to Gaming Strategy Coach AI!**\\n\\nI'm your personal esports mentor powered by GROQ Llama 3.3 70B.\\n\\n**I can help you with:**\\n- 🎯 Pro strategies & meta builds\\n- 📊 Gameplay analysis\\n- 🏆 Rank climbing tips\\n\\n**Note:** 🎮 = You  |  🤖 = AI Coach\\n\\nChoose your settings on the right and ask me anything!"}
+                    ],
+                    render_markdown=True,
+                    sanitize_html=False
                 )
                 
                 with gr.Row():
@@ -569,7 +740,7 @@ with gr.Blocks(title="🎮 Gaming Strategy Coach AI") as demo:
         # Right Column - Settings & Controls
         with gr.Column(scale=3):
             with gr.Group(elem_classes="settings-panel"):
-                gr.Markdown("### ⚙️ Coaching Settings")
+                gr.HTML('<h3 style="color: #c4b5fd; font-size: 1.25rem; font-weight: 700; margin: 0 0 1.5rem 0; padding-bottom: 0.75rem; border-bottom: 2px solid rgba(139, 92, 246, 0.3);">⚙️ Coaching Settings</h3>')
                 
                 coaching_mode = gr.Dropdown(
                     choices=list(COACHING_MODES.keys()),
@@ -596,10 +767,11 @@ with gr.Blocks(title="🎮 Gaming Strategy Coach AI") as demo:
                     step=1,
                     label="📊 Response Detail Level",
                     info="1 = Quick Tips | 10 = Deep Analysis",
-                    container=True
+                    container=True,
+                    elem_classes="slider-container"
                 )
                 
-                gr.Markdown("### ⚡ Quick Actions")
+                gr.HTML('<h3 style="color: #c4b5fd; font-size: 1.25rem; font-weight: 700; margin: 2rem 0 1rem 0; padding-bottom: 0.75rem; border-bottom: 2px solid rgba(139, 92, 246, 0.3);">⚡ Quick Actions</h3>')
                 
                 with gr.Column():
                     build_btn = gr.Button("📋 Build Guide", size="sm", elem_classes="quick-action-btn")
@@ -622,8 +794,11 @@ with gr.Blocks(title="🎮 Gaming Strategy Coach AI") as demo:
                     </div>
                 """)
     
-    # State management
-    state = gr.State([])
+    # State management with welcome message showing avatars
+    welcome_messages = [
+        {"role": "assistant", "content": "👋 **Welcome to Gaming Strategy Coach AI!**\n\nI'm your personal esports mentor powered by GROQ Llama 3.3 70B. I can help you with:\n\n🎯 **Pro Strategies** - Meta builds, counter-plays, and advanced tactics\n📊 **Gameplay Analysis** - Identify weaknesses and improvement areas\n🏆 **Rank Climbing** - Tips to climb the competitive ladder\n\nChoose your coaching mode and game from the settings on the right, then ask me anything!"}
+    ]
+    state = gr.State(welcome_messages)
     
     # Event handlers
     submit_btn.click(
@@ -648,7 +823,7 @@ with gr.Blocks(title="🎮 Gaming Strategy Coach AI") as demo:
     
     # Quick action buttons
     build_btn.click(
-        lambda hist, mode, g, detail: quick_query("Build Guide", hist, mode, g, detail),
+        lambda hist, mode, g, detail: list(quick_query("Build Guide", hist, mode, g, detail))[-1],
         [state, coaching_mode, game, detail_level],
         [state]
     ).then(
@@ -658,7 +833,7 @@ with gr.Blocks(title="🎮 Gaming Strategy Coach AI") as demo:
     )
     
     counter_btn.click(
-        lambda hist, mode, g, detail: quick_query("Counter Strategy", hist, mode, g, detail),
+        lambda hist, mode, g, detail: list(quick_query("Counter Strategy", hist, mode, g, detail))[-1],
         [state, coaching_mode, game, detail_level],
         [state]
     ).then(
@@ -668,7 +843,7 @@ with gr.Blocks(title="🎮 Gaming Strategy Coach AI") as demo:
     )
     
     improve_btn.click(
-        lambda hist, mode, g, detail: quick_query("Improve My Gameplay", hist, mode, g, detail),
+        lambda hist, mode, g, detail: list(quick_query("Improve My Gameplay", hist, mode, g, detail))[-1],
         [state, coaching_mode, game, detail_level],
         [state]
     ).then(
@@ -678,7 +853,7 @@ with gr.Blocks(title="🎮 Gaming Strategy Coach AI") as demo:
     )
     
     meta_btn.click(
-        lambda hist, mode, g, detail: quick_query("Meta Analysis", hist, mode, g, detail),
+        lambda hist, mode, g, detail: list(quick_query("Meta Analysis", hist, mode, g, detail))[-1],
         [state, coaching_mode, game, detail_level],
         [state]
     ).then(
@@ -707,7 +882,7 @@ with gr.Blocks(title="🎮 Gaming Strategy Coach AI") as demo:
                 🎮 Level up your gameplay with AI-powered coaching
             </p>
             <p style="margin: 0.5rem 0 0 0; color: #666; font-size: 0.85rem;">
-                Made with ❤️ for gamers worldwide
+                Made with 🖤 for gamers worldwide
             </p>
         </div>
     """)
