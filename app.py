@@ -194,10 +194,21 @@ def query_groq_stream(message, chat_history, system_prompt):
     
     messages = [{"role": "system", "content": system_prompt}]
     
-    # Handle chat history in Gradio's message format
+    # Handle chat history and strip display formatting
     for msg in chat_history:
         if isinstance(msg, dict):
-            messages.append(msg)
+            # Clean the content from emoji prefixes for API
+            content = msg.get("content", "")
+            role = msg.get("role", "")
+            
+            # Strip display prefixes
+            if role == "user":
+                content = content.replace("🎮 **You:** ", "").replace("🎮 You: ", "")
+            elif role == "assistant":
+                content = content.replace("🤖 **Coach:** ", "").replace("🤖 Coach: ", "")
+            
+            if content.strip():  # Only add non-empty messages
+                messages.append({"role": role, "content": content.strip()})
         elif isinstance(msg, tuple) and len(msg) == 2:
             # Legacy tuple format support
             messages.append({"role": "user", "content": msg[0]})
@@ -249,15 +260,21 @@ def respond(message, chat_history, coaching_mode, game, detail_level):
         yield "", chat_history
         return
     
-    # Add user message immediately with emoji prefix
+    # Add user message with display formatting
     chat_history.append({"role": "user", "content": f"🎮 **You:** {message}"})
     chat_history.append({"role": "assistant", "content": ""})
     
     system_prompt = build_system_prompt(coaching_mode, game, detail_level)
     
-    # Stream the response with emoji prefix added once
-    for partial_response in query_groq_stream(message, chat_history[:-1], system_prompt):
-        chat_history[-1]["content"] = f"🤖 **Coach:** {partial_response}"
+    # Pass clean message and history to API (formatting will be stripped in query_groq_stream)
+    for partial_response in query_groq_stream(message, chat_history[:-2], system_prompt):
+        # Clean any duplicate prefixes from AI response
+        cleaned_response = partial_response
+        for prefix in ["🤖 Coach:", "Coach:", "🤖 **Coach:**", "**Coach:**"]:
+            if cleaned_response.strip().startswith(prefix):
+                cleaned_response = cleaned_response.strip()[len(prefix):].strip()
+                break
+        chat_history[-1]["content"] = f"🤖 **Coach:** {cleaned_response}"
         yield "", chat_history
 
 def quick_query(query_type, chat_history, coaching_mode, game, detail_level):
@@ -271,15 +288,21 @@ def quick_query(query_type, chat_history, coaching_mode, game, detail_level):
     
     message = queries[query_type]
     
-    # Add user message with emoji prefix
+    # Add user message with display formatting
     chat_history.append({"role": "user", "content": f"🎮 **You:** {message}"})
-    chat_history.append({"role": "assistant", "content": "🤖 **Coach:** "})
+    chat_history.append({"role": "assistant", "content": ""})
     
     system_prompt = build_system_prompt(coaching_mode, game, detail_level)
     
-    # Stream the response
-    for partial_response in query_groq_stream(message, chat_history[:-1], system_prompt):
-        chat_history[-1]["content"] = f"🤖 **Coach:** {partial_response}"
+    # Pass clean message and history to API (formatting will be stripped in query_groq_stream)
+    for partial_response in query_groq_stream(message, chat_history[:-2], system_prompt):
+        # Clean any duplicate prefixes from AI response
+        cleaned_response = partial_response
+        for prefix in ["🤖 Coach:", "Coach:", "🤖 **Coach:**", "**Coach:**"]:
+            if cleaned_response.strip().startswith(prefix):
+                cleaned_response = cleaned_response.strip()[len(prefix):].strip()
+                break
+        chat_history[-1]["content"] = f"🤖 **Coach:** {cleaned_response}"
         yield chat_history
 
 # 🎮 Enhanced Gradio Interface with Modern Gaming Theme
@@ -350,6 +373,10 @@ input, textarea {
     margin: 0.75rem 0 0 0;
     position: relative;
     z-index: 1;
+}
+
+.svelte-xzq5jh{
+    height:-webkit-fill-available;
 }
 
 /* Main Layout */
