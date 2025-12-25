@@ -747,7 +747,7 @@ with gr.Blocks(title="🎮 Gaming Strategy Coach AI") as demo:
                     height=550,
                     show_label=True,
                     value=[
-                        {"role": "assistant", "content": "🤖 **Welcome to Gaming Strategy Coach AI!**\\n\\nI'm your personal esports mentor powered by GROQ Llama 3.3 70B.\\n\\n**I can help you with:**\\n- 🎯 Pro strategies & meta builds\\n- 📊 Gameplay analysis\\n- 🏆 Rank climbing tips\\n\\n**Note:** 🎮 = You  |  🤖 = AI Coach\\n\\nChoose your settings on the right and ask me anything!"}
+                        {"role": "assistant", "content": "🤖 **Coach:** Welcome to Gaming Strategy Coach AI!\n\nI'm your personal esports mentor powered by GROQ Llama 3.3 70B.\n\n**I can help you with:**\n- 🎯 Pro strategies & meta builds\n- 📊 Gameplay analysis\n- 🏆 Rank climbing tips\n\n**Note:** 🎮 = You  |  🤖 = AI Coach\n\nChoose your settings on the right and ask me anything!"}
                     ],
                     render_markdown=True,
                     sanitize_html=False
@@ -823,7 +823,7 @@ with gr.Blocks(title="🎮 Gaming Strategy Coach AI") as demo:
     
     # State management with welcome message showing avatars
     welcome_messages = [
-        {"role": "assistant", "content": "👋 **Welcome to Gaming Strategy Coach AI!**\n\nI'm your personal esports mentor powered by GROQ Llama 3.3 70B. I can help you with:\n\n🎯 **Pro Strategies** - Meta builds, counter-plays, and advanced tactics\n📊 **Gameplay Analysis** - Identify weaknesses and improvement areas\n🏆 **Rank Climbing** - Tips to climb the competitive ladder\n\nChoose your coaching mode and game from the settings on the right, then ask me anything!"}
+        {"role": "assistant", "content": "🤖 **Coach:** Welcome to Gaming Strategy Coach AI!\n\nI'm your personal esports mentor powered by GROQ Llama 3.3 70B. I can help you with:\n\n🎯 **Pro Strategies** - Meta builds, counter-plays, and advanced tactics\n📊 **Gameplay Analysis** - Identify weaknesses and improvement areas\n🏆 **Rank Climbing** - Tips to climb the competitive ladder\n\nChoose your coaching mode and game from the settings on the right, then ask me anything!"}
     ]
     state = gr.State(welcome_messages)
     
